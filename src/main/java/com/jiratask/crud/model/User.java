@@ -16,6 +16,10 @@ public class User {
     private String password;
     private String email;
 
-    @Column(name = "role_id")
-    private int roleId;
+//    @Column(name = "role_id")
+//    private int roleId;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 }
