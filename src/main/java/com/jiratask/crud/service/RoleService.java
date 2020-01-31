@@ -14,7 +14,4 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public void findById(int id){
-        this.roleRepository.getOne(id);
-    }
 }

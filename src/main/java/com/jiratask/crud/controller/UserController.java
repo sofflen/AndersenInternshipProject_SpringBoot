@@ -1,17 +1,14 @@
 package com.jiratask.crud.controller;
 
+import com.jiratask.crud.dto.UserDTO;
 import com.jiratask.crud.model.User;
 import com.jiratask.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class UserController {
 
     private final UserService userService;
@@ -22,39 +19,29 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String findAll(Model model) {
-        List<User> users = userService.findAll();
-        model.addAttribute("users", users);
-        return "user-list";
+    public List<User> findAll() {
+        return userService.findAll();
     }
 
-    @GetMapping("/user-create")
-    public String createUserForm(User user) {
-        return "user-create";
+    @GetMapping("/users/{id}")
+    public User findUser(@PathVariable int id) {
+        return userService.findById(id);
     }
 
-    @PostMapping("/user-create")
-    public String createUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/users";
+    @PostMapping("/users/user-create")
+    public User createUser(User user) {
+        return userService.saveUser(user);
     }
 
-    @GetMapping("/user-delete/{id}")
-    public String deleteUser(@PathVariable int id) {
-        userService.deleteById(id);
-        return "redirect:/users";
-    }
-
-    @GetMapping("/user-update/{id}")
-    public String updateUserForm(Model model, @PathVariable int id) {
+    @DeleteMapping("/users/user-delete/{id}")
+    public User deleteUser(@PathVariable int id) {
         User user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "/user-update";
+        userService.deleteById(id);
+        return user;
     }
 
-    @PostMapping("/user-update")
-    public String updateUser (User user){
-        userService.saveUser(user);
-        return "redirect:/users";
+    @PostMapping("/users/user-update/{id}")
+    public User updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
+        return userService.updateUser(id, userDTO);
     }
 }
