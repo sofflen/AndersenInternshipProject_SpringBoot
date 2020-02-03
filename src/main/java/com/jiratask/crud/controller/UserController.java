@@ -18,6 +18,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/")
+    public String homePage() {
+        return ("<h1>Welcome to <p><a href=\"/users\">User list</a></p></h1>");
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return ("<h1>Welcome user</h1>");
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return ("<h1>Welcome admin</h1>");
+    }
+
     @GetMapping("/users")
     public List<User> findAll() {
         return userService.findAll();
